@@ -6,7 +6,8 @@ const app = express();
 
 /**
  * GET /api/swaps
- * Returns the 20 most recent swaps (>= $10 USDC) in descending time order.
+ * 최근 스왑 내역 20건을 시간 역순으로 반환
+ * 하이퍼테이블의 시간 파티셔닝 덕분에 최신 데이터 조회가 빠름
  */
 app.get("/api/swaps", async (_req, res) => {
   try {
@@ -24,8 +25,9 @@ app.get("/api/swaps", async (_req, res) => {
 
 /**
  * GET /api/volume
- * Returns 5-minute USDC volume buckets for the last 1 hour.
- * Useful for rendering a bar/line chart.
+ * 최근 1시간의 5분 단위 누적 거래량(USDC 기준)을 반환
+ * Continuous Aggregate 뷰에서 읽으므로 원본 테이블을 집계하지 않음
+ * → 데이터가 수백만 건이어도 응답 속도에 영향 없음
  */
 app.get("/api/volume", async (_req, res) => {
   try {
@@ -45,14 +47,14 @@ app.get("/api/volume", async (_req, res) => {
   }
 });
 
-/** Health check */
+/** 헬스체크 엔드포인트 */
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
 app.listen(config.api.port, () => {
-  console.log(`🌐 API server running on http://localhost:${config.api.port}`);
-  console.log(`   GET /api/swaps   - Recent swap transactions`);
-  console.log(`   GET /api/volume  - 5-min volume buckets`);
-  console.log(`   GET /health      - Health check`);
+  console.log(`API server running on http://localhost:${config.api.port}`);
+  console.log(`   GET /api/swaps   - 최근 스왑 내역`);
+  console.log(`   GET /api/volume  - 5분 단위 거래량`);
+  console.log(`   GET /health      - 헬스체크`);
 });
