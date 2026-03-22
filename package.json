@@ -1,0 +1,29 @@
+{
+  "name": "solana-indexer",
+  "version": "1.0.0",
+  "description": "Solana Orca Whirlpool swap indexer with TimescaleDB",
+  "scripts": {
+    "build": "tsc",
+    "dev:indexer": "ts-node src/indexer.ts",
+    "dev:server": "ts-node src/server.ts",
+    "dev": "concurrently \"npm run dev:indexer\" \"npm run dev:server\"",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down"
+  },
+  "dependencies": {
+    "@triton-one/yellowstone-grpc": "^1.0.0",
+    "@solana/web3.js": "^1.95.0",
+    "express": "^4.21.0",
+    "pg": "^8.13.0",
+    "dotenv": "^16.4.0",
+    "bs58": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/pg": "^8.11.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "ts-node": "^10.9.0",
+    "concurrently": "^9.0.0"
+  }
+}
